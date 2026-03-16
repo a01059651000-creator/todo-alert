@@ -1,1 +1,21 @@
+name: Todo Alert
 
+on:
+  schedule:
+    - cron: '0 23,0,1,2,3,4,5,6,7,8,9,10,11 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-todos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Run Alert
+        env:
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node alert.js
